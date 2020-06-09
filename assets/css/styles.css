@@ -1,3 +1,17 @@
+/* header */
+header ul {
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+header ul li {
+    display: inline;
+}
+
+/* timer class */
+
 /* button */
 
 /* button:hover */

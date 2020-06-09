@@ -2,8 +2,29 @@
 // var questions = [question strings]
 // var choices = [[answer choices strings]]
 // var correctAns = [correct answer strings]
-// var timer
+var offset = 0;
 
+// function timeOver() {
+    // display something because the user ran out of time
+// }
+
+
+function updateTimer() {
+    setInterval(function setTimer() {
+        // get timer.innerHTML.toParse() (change to int)
+        var timer = document.getElementById('timer');
+        var temp = timer.innerHTML;
+        var index = temp.indexOf(" ") + 1;
+        var x = parseInt(temp.substr(index, temp.length));
+        if(offset > 0) {
+            x += offset;
+            offset = 0;
+        }
+        x++;
+    timer.innerHTML = "Timer: " + x;
+    }, 1000) // needs 1000 because it runs in milliseconds
+}
+ 
 // function setQuestion (index) {
         // give the user the question
             // display question from array questions
@@ -13,7 +34,10 @@
 // }
 
 // function checkAns (index, answer) {
-    // check user answer
+    // if(correctAns[i] !== answer) {
+            // offset = 10;
+            // setTimer()
+    // }
     // return bool
 // }
 
@@ -47,7 +71,7 @@
 
 // *main function calls all the helper functions
 // button.onclick = function start {
-    // start timer
+    // setTimer()
     // for (questions.length) {
         // setQuestion(i)
         // var answer = get user answer
