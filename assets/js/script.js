@@ -1,13 +1,26 @@
 // PSEUDO
-// var questions = [question strings]
-// var choices = [[answer choices strings]]
+// Global Variables
+var questions = [
+    "Commonly used data types do NOT include:",
+    "The condition in an if / else statement is enclosed with ______.",
+    "Arrays in JavaScript can be used to store ______.",
+    "String values must be enclosed within ______ when being assigned to variables.",
+    "A very useful tool used during development and debugging for printing content ot the debugger is:"
+]
 // var correctAns = [correct answer strings]
+// answer choices
+// TODO: add in the rest of the actual answer choices
+var choices = [
+    ["strings", "booleans", "alerts", "numbers"],
+    ["strings", "booleans", "alerts", "numbers"],
+    ["strings", "booleans", "alerts", "numbers"],
+    ["strings", "booleans", "alerts", "numbers"],
+    ["strings", "booleans", "alerts", "numbers"]
+]
+// handles 10 second penalty
 var offset = 0;
-
-// function timeOver() {
-    // display something because the user ran out of time
-// }
-
+// user score
+var score = 0;
 
 function updateTimer() {
     setInterval(function setTimer() {
@@ -25,13 +38,27 @@ function updateTimer() {
     }, 1000) // needs 1000 because it runs in milliseconds
 }
  
-// function setQuestion (index) {
-        // give the user the question
-            // display question from array questions
-            // for (choices[index].length) {
-                // display answer choices
-            // }
-// }
+function setQuestion (index) {
+    // give the user the question
+    var temp = document.querySelector('div');
+    if(temp) {
+        temp.remove();
+    }
+    var question = document.getElementById('main-content');
+    // display question from array questions
+    question.innerHTML = questions[index];
+    for (var i = 0; i < choices[index].length; i++) {
+        var ansContainer = document.createElement('div');
+        console.log(ansContainer)
+        var createBtn = document.createElement('button');
+        createBtn.innerHTML = choices[index][i];
+        createBtn.className = "btn";
+
+        ansContainer.appendChild(createBtn);
+        document.getElementsByTagName('main')[0].appendChild(ansContainer);
+    }
+
+}
 
 // function checkAns (index, answer) {
     // if(correctAns[i] !== answer) {
@@ -70,17 +97,18 @@ function updateTimer() {
 // }
 
 // *main function calls all the helper functions
-// button.onclick = function start {
-    // setTimer()
-    // for (questions.length) {
-        // setQuestion(i)
+document.getElementById('start').addEventListener("click", function () {
+    updateTimer();
+
+    // for (var i = 0; i < questions.length; i++) {
+        setQuestion(0);
         // var answer = get user answer
         // checkAns(i, ans)
         // var ans = check user answer
         // if(!ans) {
-                // decrease timer by 10 seconds
+        //         decrease timer by 10 seconds
         // }
         // displayCheck(ans)
     // }
     // call form function
-// }
+});

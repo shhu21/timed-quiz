@@ -1,3 +1,10 @@
+/* global variables */
+:root {
+    --btnColor: #3b0777;
+    --txtColor: #ffffff;
+    --btnHover: rgb(155, 88, 209);
+}
+
 /* header */
 header ul {
     padding: 0 20px;
@@ -9,6 +16,30 @@ header ul {
 header ul li {
     display: inline;
 }
+
+main {
+    margin: 5rem auto;
+    text-align: center;
+}
+
+main p {
+    font-size: 20px;
+}
+
+.btn {
+    padding: 10px;
+    font-size: 20px;
+    background-color: var(--btnColor);
+    color: var(--txtColor);
+    text-align: center;
+    border-radius: 8px;
+    flex-direction: column; 
+}
+
+.btn:hover {
+    background-color: var(--btnHover);
+}
+
 
 /* timer class */
 
