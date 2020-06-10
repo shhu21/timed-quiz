@@ -3,7 +3,7 @@
     --btnColor: #3b0777;
     --txtColor: #ffffff;
     --btnHover: rgb(155, 88, 209);
-    --feedbackColor: lightgrey;
+    --feedbackColor: grey;
 }
 
 /* header */
@@ -50,9 +50,9 @@ main p {
     /* question text (main text) */
 
 /* feedback (right or wrong) class */
-.feedback {
+#feedback {
     font-style: italic;
-    border-top: 2px;
+    border-top: 2px solid;
     padding-top: 5px;
     margin-top: 5px;
     color: var(--feedbackColor);

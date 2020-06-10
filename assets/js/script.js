@@ -51,10 +51,17 @@ function updateTimer() {
 function displayCheck (feedback) {
     // create div
     var feedbackDiv = document.createElement('div');
-    feedbackDiv.class = "feedback";
+    feedbackDiv.id = "feedback";
     feedbackDiv.innerHTML = feedback;
     document.getElementsByTagName('body')[0].appendChild(feedbackDiv);
     // need some interval to display it
+    var cnt = 0;
+    var interval = setTimeout(function () {
+        cnt++;
+        if (cnt == 1) {
+            document.getElementById('feedback').remove();
+        }
+    }, 1000)
     // remove div (would be better to handle it in runQuestions but whatever for now)
 }
 
