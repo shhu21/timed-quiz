@@ -52,9 +52,10 @@ main p {
 /* feedback (right or wrong) class */
 #feedback {
     font-style: italic;
+    width: 50%;
     border-top: 2px solid;
     padding-top: 5px;
-    margin-top: 5px;
+    margin: 5px auto;
     color: var(--feedbackColor);
     border-color: var(--feedbackColor);
     text-align: center;
