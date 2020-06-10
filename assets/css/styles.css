@@ -3,6 +3,7 @@
     --btnColor: #3b0777;
     --txtColor: #ffffff;
     --btnHover: rgb(155, 88, 209);
+    --feedbackColor: lightgrey;
 }
 
 /* header */
@@ -26,6 +27,7 @@ main p {
     font-size: 20px;
 }
 
+/* button */
 .btn {
     padding: 10px;
     font-size: 20px;
@@ -36,6 +38,7 @@ main p {
     flex-direction: column; 
 }
 
+/* button:hover */
 .btn:hover {
     background-color: var(--btnHover);
 }
@@ -43,12 +46,16 @@ main p {
 
 /* timer class */
 
-/* button */
-
-/* button:hover */
-    /* highlight answer choice on hover */
-
 /* h1 */
     /* question text (main text) */
 
 /* feedback (right or wrong) class */
+.feedback {
+    font-style: italic;
+    border-top: 2px;
+    padding-top: 5px;
+    margin-top: 5px;
+    color: var(--feedbackColor);
+    border-color: var(--feedbackColor);
+    text-align: center;
+}

@@ -48,12 +48,22 @@ function updateTimer() {
     }, 1000); // needs 1000 because it runs in milliseconds
 }
 
+function displayCheck (feedback) {
+    // create div
+    var feedbackDiv = document.createElement('div');
+    feedbackDiv.class = "feedback";
+    feedbackDiv.innerHTML = feedback;
+    document.getElementsByTagName('body')[0].appendChild(feedbackDiv);
+    // need some interval to display it
+    // remove div (would be better to handle it in runQuestions but whatever for now)
+}
+
 var checkAns = function (event) {
     if(event.target.id == 'correct') {
-        // display correct
+        displayCheck("Correct!");
     }
     else {
-        // display wrong
+        displayCheck("Wrong!");
     }
     
     index++;
@@ -76,7 +86,8 @@ function setQuestion () {
         createBtn.innerHTML = choices[index][i];
         createBtn.className = "btn";
 
-        if(choices[index][i] == correctAns[i]) {
+        if(choices[index][i] === correctAns[index]) {
+            console.log(choices[index][i], correctAns[index])
             createBtn.id = "correct";
         }
 
@@ -90,18 +101,11 @@ function setQuestion () {
     }
 }
 
-// function displayCheck (bool) {
-    // if(bool) {
-        // display "correct" message
-        // return;
-    // }
-    // display "wrong" message
-// }
-
-// inputUser {
+function inputUser() {
+    // clear 'main-content'
     // input user info and store into high scores
     // may need to do a sort if local storage doesn't handle it
-// }
+}
 
 // high score back button
 // onclick goBack(object) {
@@ -128,9 +132,11 @@ var viewHighScores = function() {
 
 function runQuestions() {
     if(index >= questions.length) {
-        return;
+        inputUser();
     }
-    setQuestion();
+    else {
+        setQuestion();
+    }
 }
 
 // starts quiz
@@ -138,7 +144,6 @@ var startQuiz = function () {
     timer = updateTimer();
     ifOngoing = true;
     runQuestions();
-    // call form function
 }
 
 document.getElementById('start').addEventListener("click", startQuiz);
