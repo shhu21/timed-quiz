@@ -58,5 +58,5 @@ main p {
     margin: 5px auto;
     color: var(--feedbackColor);
     border-color: var(--feedbackColor);
-    text-align: center;
+    text-align: left;
 }
