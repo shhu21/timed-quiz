@@ -31,21 +31,20 @@ var timer;
 var ifOngoing = false;
 // save state of quiz
 var state = document;
+var initialState = document;
 
 function updateTimer() {
-    return setInterval(function setTimer() {
+    return setInterval(function() {
         // get timer.innerHTML.toParse() (change to int)
         var time = document.getElementById('timer');
-        var temp = time.innerHTML;
-        var index = temp.indexOf(" ") + 1;
-        var x = parseInt(temp.substr(index, temp.length));
+        var x = parseInt(time.innerHTML);
         if(offset > 0) {
             x += offset;
             offset = 0;
         }
         x++;
-    time.innerHTML = "Timer: " + x;
-    score = x;
+        time.innerHTML = x;
+        score = x;
     }, 1000); // needs 1000 because it runs in milliseconds
 }
 
@@ -60,7 +59,6 @@ function displayCheck (feedback) {
     var interval = setTimeout(function () {
         document.getElementById('feedback').remove();
         index++;
-        timer = updateTimer();
         runQuestions();
     }, 1000)
 }
@@ -76,12 +74,12 @@ function removeClick () {
 var checkAns = function (event) {
     // remove onclick eventlistener
     removeClick();
-    clearInterval(timer);
     if(event.target.id == 'correct') {
         displayCheck("Correct!");
     }
     else {
         displayCheck("Wrong!");
+        offset = 10;
     }
 }
  
@@ -117,13 +115,14 @@ function setQuestion () {
 
 var storeScore = function () {
     var initials = document.getElementById("user-initials").value;
-    // store current user score
-    // store score in highscores array of objects
-    // do some for loop sort
-    // array.pop if greater than 5 scores
+    localStorage.setItem(initials, score);
+    console.log(localStorage);
+    document.getElementById("user-initials").value = "";
 }
 
 function inputUser() {
+    ifOngoing = false;
+
     // clear 'main-content'
     document.querySelector('h1').innerHTML = "All done!";
     document.querySelector('div').remove();
@@ -165,25 +164,60 @@ function inputUser() {
     // clear high scores (clear array or clear local storage whichever is handling the score storage)
 // }
 
-function saveState() {
+function saveState () {
     // pause timer if in the middle of the quiz and then restart
     clearInterval(timer);
     // save state of quiz
     state = document;
 };
 
+function displayScores (scores) {
+    var highScore = 0;
+    for(var i = 1; i < scores.length; i++) {
+        if(scores[highScore] > scores[i]) {
+            highScore = i;
+        }
+    }
+
+    if(scores.length == 0) {
+        return;
+    }
+
+    var temp = scores[scores.length - 1];
+    scores[highScore] = temp;
+    scores.pop();
+    // display score
+
+    displayScores(scores);
+}
+
 var viewHighScores = function() {
     if(ifOngoing) {
         saveState();
     }
+
+    document.querySelector('h1').innerHTML = "High Scores";
+    // document.querySelector('div').remove();
+    // add div for scores
+    // add back button
+    // add clear scores
+    
+    var allScores = [];
+    for(var i = 1; i < localStorage.length; i++) {
+        allScores.push({
+            name: localStorage.key(i),
+            score: localStorage.getItem(localStorage.key(i))
+        });
+    }
+
     // display high scores
-    // ordered list
+    displayScores(allScores);
 }
 
 function runQuestions() {
     if(index >= questions.length) {
         clearInterval(timer);
-        ifOngoing = "false";
+        ifOngoing = false;
         inputUser();
     }
     else {
