@@ -45,6 +45,7 @@ function updateTimer() {
         }
         x++;
     time.innerHTML = "Timer: " + x;
+    score = x;
     }, 1000); // needs 1000 because it runs in milliseconds
 }
 
@@ -57,24 +58,31 @@ function displayCheck (feedback) {
     // need some interval to display it
     var cnt = 0;
     var interval = setTimeout(function () {
-        cnt++;
-        if (cnt == 1) {
-            document.getElementById('feedback').remove();
-        }
+        document.getElementById('feedback').remove();
+        index++;
+        timer = updateTimer();
+        runQuestions();
     }, 1000)
-    // remove div (would be better to handle it in runQuestions but whatever for now)
+}
+
+function removeClick () {
+    // remove onlick eventlistener from all buttons
+    var btns = document.getElementsByClassName('btn');
+    for(var i = 0; i < btns.length; i++) {
+        btns[i].removeEventListener('click', checkAns);
+    }
 }
 
 var checkAns = function (event) {
+    // remove onclick eventlistener
+    removeClick();
+    clearInterval(timer);
     if(event.target.id == 'correct') {
         displayCheck("Correct!");
     }
     else {
         displayCheck("Wrong!");
     }
-    
-    index++;
-    runQuestions();
 }
  
 function setQuestion () {
@@ -94,7 +102,6 @@ function setQuestion () {
         createBtn.className = "btn";
 
         if(choices[index][i] === correctAns[index]) {
-            console.log(choices[index][i], correctAns[index])
             createBtn.id = "correct";
         }
 
@@ -108,15 +115,50 @@ function setQuestion () {
     }
 }
 
+var storeScore = function () {
+    var initials = document.getElementById("user-initials").value;
+    // store current user score
+    // store score in highscores array of objects
+    // do some for loop sort
+    // array.pop if greater than 5 scores
+}
+
 function inputUser() {
     // clear 'main-content'
-    // input user info and store into high scores
-    // may need to do a sort if local storage doesn't handle it
+    document.querySelector('h1').innerHTML = "All done!";
+    document.querySelector('div').remove();
+
+    var parent = document.getElementById('main-content');
+    parent.style.textAlign = "left";
+    parent.style.width = "40%"
+
+    var userScore = document.createElement('p');
+    userScore.innerHTML = "Your final score is: " + score;
+    parent.appendChild(userScore);
+
+    var label = document.createElement('label');
+    label.innerHTML = "Enter initials: ";
+    parent.appendChild(label);
+
+    var input = document.createElement('input');
+    input.type = "text";
+    input.id = "user-initials";
+    input.style.width = "20rem";
+    input.style.height = "2rem";
+    parent.appendChild(input);
+
+    var btn = document.createElement('button');
+    btn.type = "submit"
+    btn.innerHTML = "Submit";
+    btn.className = 'btn';
+    btn.addEventListener('click', storeScore);
+    parent.appendChild(btn);
 }
 
 // high score back button
 // onclick goBack(object) {
 //     reload object (saved previous state of 'main' html)
+    // if back to input initials, edit user initials
 // }
 
 // onlick clearScores {
@@ -135,10 +177,13 @@ var viewHighScores = function() {
         saveState();
     }
     // display high scores
+    // ordered list
 }
 
 function runQuestions() {
     if(index >= questions.length) {
+        clearInterval(timer);
+        ifOngoing = "false";
         inputUser();
     }
     else {
