@@ -276,6 +276,7 @@ var clearScores = function () {
     localStorage.clear();
     // still displays scores after back and view high scoress
     document.getElementById('score-div').remove();
+    viewScores = document.getElementsByTagName('body')[0].innerHTML;
 };
 
 var viewHighScores = function() {
@@ -329,8 +330,7 @@ var viewHighScores = function() {
         }
         
         // display high scores (prevents it from dublicating the list on multiple clicks)
-        if((!ifOngoing && !ifList) && !localStorage.replaced_stats) {
-            console.log("test");
+        if(!ifOngoing && !ifList && !localStorage.replaced_stats) {
             displayScores(allScores, 0);
         }
     
