@@ -1,4 +1,3 @@
-// PSEUDO
 // Global Variables
 var questions = [
     "Commonly used data types do NOT include:",
@@ -13,7 +12,7 @@ var correctAns = ["strings", "booleans", "alerts", "numbers", "numbers"];
 // answer choices
 // TODO: add in the rest of the actual answer choices
 var choices = [
-    ["strings", "booleans", "alerts", "numbers"],
+    ["numbers and strings", "booleans", "alerts", "numbers"],
     ["strings", "booleans", "alerts", "numbers"],
     ["strings", "booleans", "alerts", "numbers"],
     ["strings", "booleans", "alerts", "numbers"],
@@ -31,7 +30,10 @@ var timer;
 var ifOngoing = false;
 // save state of quiz
 var state = document;
-var initialState = document;
+var initialState = document.getElementsByTagName('body')[0].innerHTML;
+// var parent = document.getElementById('main-content');
+var scoreDiv = document.createElement('div');
+scoreDiv.id = "score-div"
 
 function updateTimer() {
     return setInterval(function() {
@@ -65,7 +67,7 @@ function displayCheck (feedback) {
 
 function removeClick () {
     // remove onlick eventlistener from all buttons
-    var btns = document.getElementsByClassName('btn');
+    var btns = document.getElementsByClassName('q-btn');
     for(var i = 0; i < btns.length; i++) {
         btns[i].removeEventListener('click', checkAns);
     }
@@ -82,22 +84,32 @@ var checkAns = function (event) {
         offset = 10;
     }
 }
+
+function btnClick () {
+    var choiceBtns = document.getElementsByClassName('q-btn')
+    for(var i = 0; i < choiceBtns.length; i++){
+        choiceBtns[i].addEventListener('click', checkAns);
+    }
+}
  
 function setQuestion () {
+    var parent = document.getElementById('main-content');
     // give the user the question
     var temp = document.querySelector('div');
     if(temp) {
         temp.remove();
     }
 
-    var question = document.getElementsByTagName('h1')[0];
+    var question = document.createElement('h1');
     // display question from array questions
     question.innerHTML = questions[index];
     var ansContainer = document.createElement('div');
+    ansContainer.appendChild(question);
+    ansContainer.id = "btn-div";
     for (var i = 0; i < choices[index].length; i++) {
         var createBtn = document.createElement('button');
         createBtn.innerHTML = choices[index][i];
-        createBtn.className = "btn";
+        createBtn.className = "q-btn";
 
         if(choices[index][i] === correctAns[index]) {
             createBtn.id = "correct";
@@ -105,12 +117,9 @@ function setQuestion () {
 
         ansContainer.appendChild(createBtn);
     }
-    document.getElementById('main-content').appendChild(ansContainer);
+    parent.appendChild(ansContainer);
 
-    var choiceBtns = document.getElementsByClassName('btn')
-    for(var i = 0; i < choiceBtns.length; i++){
-        choiceBtns[i].addEventListener('click', checkAns);
-    }
+    btnClick();
 }
 
 var storeScore = function () {
@@ -118,100 +127,165 @@ var storeScore = function () {
     localStorage.setItem(initials, score);
     console.log(localStorage);
     document.getElementById("user-initials").value = "";
+    document.getElementsByClassName('btn')[0].removeEventListener('click', storeScore);
 }
 
 function inputUser() {
+    var parent = document.getElementById('main-content');
     ifOngoing = false;
 
     // clear 'main-content'
-    document.querySelector('h1').innerHTML = "All done!";
     document.querySelector('div').remove();
-
-    var parent = document.getElementById('main-content');
-    parent.style.textAlign = "left";
-    parent.style.width = "40%"
+    
+    var newContent = document.createElement('div');
+    newContent.id = "main-content";
+    newContent.style.textAlign = "left";
+    newContent.style.width = "40%"
+    
+    var title = document.createElement('h1')
+    title.innerHTML = "All done!";
+    newContent.appendChild(title);
 
     var userScore = document.createElement('p');
     userScore.innerHTML = "Your final score is: " + score;
-    parent.appendChild(userScore);
-
+    newContent.appendChild(userScore);
+    
+    var form = document.createElement('div');
+    form.className = "form";
+    
     var label = document.createElement('label');
     label.innerHTML = "Enter initials: ";
-    parent.appendChild(label);
+    label.style.whiteSpace = "nowrap";
+    label.style.paddingTop = "17px";
+    form.appendChild(label);
 
     var input = document.createElement('input');
     input.type = "text";
     input.id = "user-initials";
-    input.style.width = "20rem";
+    input.style.minWidth = "20rem";
     input.style.height = "2rem";
-    parent.appendChild(input);
+    form.appendChild(input);
 
     var btn = document.createElement('button');
     btn.type = "submit"
     btn.innerHTML = "Submit";
-    btn.className = 'btn';
+    btn.className = "btn";
     btn.addEventListener('click', storeScore);
-    parent.appendChild(btn);
+    form.appendChild(btn);
+    newContent.appendChild(form);
+
+    parent.appendChild(newContent);
 }
 
 // high score back button
-// onclick goBack(object) {
-//     reload object (saved previous state of 'main' html)
-    // if back to input initials, edit user initials
-// }
-
-// onlick clearScores {
-    // clear high scores (clear array or clear local storage whichever is handling the score storage)
-// }
+var goBack = function() {
+    if(ifOngoing) {
+        // resume quiz
+        document.getElementsByTagName('body')[0].innerHTML = state;
+        var parent = document.getElementById('main-content');
+        btnClick();
+        timer = updateTimer();
+        document.getElementById('high-score').addEventListener('click', viewHighScores);
+    }
+    else {
+        // retake quiz
+        document.getElementsByTagName('body')[0].innerHTML = initialState;
+        if(document.getElementById('start')) {
+            document.getElementById('start').addEventListener("click", startQuiz);
+            index = 0;
+        }
+        document.getElementById('high-score').addEventListener('click', viewHighScores);
+    }
+};
 
 function saveState () {
     // pause timer if in the middle of the quiz and then restart
     clearInterval(timer);
     // save state of quiz
-    state = document;
+    state = document.getElementsByTagName('body')[0].innerHTML;
 };
 
-function displayScores (scores) {
+function displayScores (scores, cnt) {
     var highScore = 0;
     for(var i = 1; i < scores.length; i++) {
-        if(scores[highScore] > scores[i]) {
+        if(scores[highScore].score > scores[i].score) {
             highScore = i;
         }
     }
-
+    
     if(scores.length == 0) {
         return;
     }
+    // display score
+    cnt++;
+    var currScore = document.createElement('div');
+    if(cnt % 2 == 0) {
+        currScore.className = "score even";
+    }
+    else {
+        currScore.className = "score odd";
+    }
+    currScore.innerHTML = `${cnt}. ${scores[highScore].name} - ${scores[highScore].score}`;
+    scoreDiv.appendChild(currScore);
 
     var temp = scores[scores.length - 1];
     scores[highScore] = temp;
     scores.pop();
-    // display score
 
-    displayScores(scores);
+    displayScores(scores, cnt);
 }
 
+var clearScores = function () {
+    localStorage.clear();
+    document.getElementById('score-div').remove();
+};
+
 var viewHighScores = function() {
+    var parent = document.getElementById('main-content');
     if(ifOngoing) {
         saveState();
     }
 
-    document.querySelector('h1').innerHTML = "High Scores";
-    // document.querySelector('div').remove();
+    document.getElementsByTagName('header')[0].remove();
+    document.querySelector('div').remove();
     // add div for scores
+    // add div for back button and clear
+    var hscoreDiv = document.createElement('div');
+    // btnDiv.style.marginLeft = "10rem";
+    hscoreDiv.className = "score-list";
+    
+    var title = document.createElement('h1')
+    title.innerHTML = "High Scores";
+    hscoreDiv.appendChild(title);
     // add back button
+    var back = document.createElement('button');
+    back.className = "btn";
+    back.innerHTML = "Go Back";
+    back.addEventListener('click', goBack);
+    
     // add clear scores
+    var clear = document.createElement('button');
+    clear.className = "btn";
+    clear.innerHTML = "Clear High Scores";
+    clear.addEventListener('click', clearScores);
     
     var allScores = [];
-    for(var i = 1; i < localStorage.length; i++) {
+    for(var i = 0; i < localStorage.length; i++) {
         allScores.push({
             name: localStorage.key(i),
             score: localStorage.getItem(localStorage.key(i))
         });
     }
-
+    console.log(allScores);
     // display high scores
-    displayScores(allScores);
+    if(!ifOngoing && !document.getElementById('start')) {
+        displayScores(allScores, 0);
+    }
+    hscoreDiv.appendChild(scoreDiv);
+    hscoreDiv.appendChild(back);
+    hscoreDiv.appendChild(clear);
+    // fix order
+    parent.appendChild(hscoreDiv);
 }
 
 function runQuestions() {

@@ -19,9 +19,9 @@ header ul li {
     display: inline;
 }
 
-main {
-    margin: 5rem auto;
-    text-align: center;
+#main-content {
+    margin: 5rem 15%;
+    text-align: left;
 }
 
 main li {
@@ -36,15 +36,34 @@ input {
     margin: 10px;
 }
 
+#btn-div {
+    flex-direction: column;
+    display: flex;
+    align-items: flex-start;
+}
+
 /* button */
-.btn {
+.q-btn {
     padding: 10px;
     font-size: 20px;
+    min-width: 13rem;
     background-color: var(--btnColor);
     color: var(--txtColor);
     text-align: center;
     border-radius: 8px;
-    flex-direction: column; 
+    margin: 10px;
+}
+
+.btn {
+    padding: 10px;
+    font-size: 20px;
+    background-color:
+    var(--btnColor);
+    color: var(--txtColor);
+    text-align: center;
+    border-radius: 8px;
+    margin-top: 7px;
+    max-height: 45px;
 }
 
 /* button:hover */
@@ -52,16 +71,16 @@ input {
     background-color: var(--btnHover);
 }
 
-
 /* timer class */
 
-/* h1 */
-    /* question text (main text) */
+.initial-content {
+    text-align: center;
+}
 
 /* feedback (right or wrong) class */
 #feedback {
     font-style: italic;
-    width: 50%;
+    width: 70%;
     border-top: 2px solid;
     padding-top: 5px;
     margin: 5px auto;
@@ -69,4 +88,29 @@ input {
     border-color: var(--feedbackColor);
     text-align: left;
     font-size: 25px;
+}
+
+.form {
+    display: flex;
+}
+
+.odd {
+    background-color: var(--listColor);
+}
+
+.even {
+    background-color: var(--btnHover);
+}
+
+.score-list {
+    margin: 0 10rem;
+}
+
+.score {
+    padding: 10px 10px;
+    font-size: 20px;
+}
+
+.score:last-child {
+    margin-bottom: 1rem;
 }
