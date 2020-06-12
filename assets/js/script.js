@@ -330,6 +330,7 @@ var viewHighScores = function() {
         
         // display high scores (prevents it from dublicating the list on multiple clicks)
         if((!ifOngoing && !ifList) && !localStorage.replaced_stats) {
+            console.log("test");
             displayScores(allScores, 0);
         }
     
