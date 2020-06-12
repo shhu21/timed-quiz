@@ -283,10 +283,6 @@ var viewHighScores = function() {
         saveState();
     }
 
-    if(localStorage.replaced_stats) {
-        
-    }
-    
     if(!viewScores) {
         var parent = document.getElementById('main-content');
         var ifList = document.getElementById('score-div');
@@ -333,7 +329,7 @@ var viewHighScores = function() {
         }
         
         // display high scores (prevents it from dublicating the list on multiple clicks)
-        if(!ifOngoing && !ifList) {
+        if((!ifOngoing && !ifList) && !localStorage.replaced_stats) {
             displayScores(allScores, 0);
         }
     
