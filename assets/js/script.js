@@ -36,6 +36,7 @@ var initialState = document.getElementsByTagName('body')[0].innerHTML;
 var scoreDiv = document.createElement('div');
 scoreDiv.id = "score-div";
 var viewScores = "";
+var highScoreEl = document.getElementById('high-score');
 
 
 // Set the timer
@@ -74,6 +75,7 @@ function displayCheck (feedback) {
     var interval = setTimeout(function () {
         document.getElementById('feedback').remove();
         index++;
+        highScoreEl.addEventListener('click', viewHighScores);
         runQuestions();
     }, 1000)
 }
@@ -91,6 +93,7 @@ function removeClick () {
 var checkAns = function (event) {
     // remove onclick eventlistener so it doesn't get triggered again
     removeClick();
+    highScoreEl.removeEventListener('click', viewHighScores);
     if(event.target.id == 'correct') {
         displayCheck("Correct!");
     }
@@ -376,4 +379,4 @@ var startQuiz = function () {
 }
 
 document.getElementById('start').addEventListener("click", startQuiz);
-document.getElementById('high-score').addEventListener('click', viewHighScores);
+highScoreEl.addEventListener('click', viewHighScores);
