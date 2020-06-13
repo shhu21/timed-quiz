@@ -45,7 +45,7 @@ function updateTimer () {
         var x = parseInt(time.innerHTML);
 
         // 10 second penalty
-        if(offset > 0) {
+        if (offset > 0) {
             x += offset;
             offset = 0;
         }
@@ -82,7 +82,7 @@ function displayCheck (feedback) {
 function removeClick () {
     // remove onlick eventlistener from all buttons
     var btns = document.getElementsByClassName('q-btn');
-    for(var i = 0; i < btns.length; i++) {
+    for (var i = 0; i < btns.length; i++) {
         btns[i].removeEventListener('click', checkAns);
     }
 }
@@ -92,7 +92,7 @@ var checkAns = function (event) {
     // remove onclick eventlistener so it doesn't get triggered again
     removeClick();
     document.getElementById('high-score').removeEventListener('click', viewHighScores);
-    if(event.target.id == 'correct') {
+    if (event.target.id == 'correct') {
         displayCheck("Correct!");
     }
     else {
@@ -105,7 +105,7 @@ var checkAns = function (event) {
 // Adds the check answer event listener to the answer buttons
 function btnClick () {
     var choiceBtns = document.getElementsByClassName('q-btn')
-    for(var i = 0; i < choiceBtns.length; i++){
+    for (var i = 0; i < choiceBtns.length; i++){
         choiceBtns[i].addEventListener('click', checkAns);
     }
 }
@@ -115,7 +115,7 @@ function setQuestion () {
     var parent = document.getElementById('main-content');
     // remove the previous content
     var temp = document.querySelector('div');
-    if(temp) {
+    if (temp) {
         temp.remove();
     }
 
@@ -133,7 +133,7 @@ function setQuestion () {
         createBtn.className = "q-btn";
 
         // mark the correct answer
-        if(choices[index][i] === correctAns[index]) {
+        if (choices[index][i] === correctAns[index]) {
             createBtn.id = "correct";
         }
 
@@ -149,16 +149,23 @@ function setQuestion () {
 // Stores the user's score to local storage
 var storeScore = function () {
     var initials = document.getElementById("user-initials").value;
-    localStorage.setItem(initials, score);
+    // only add to local storage if the initials have not been entered already before
+    if (localStorage.getItem(initials)) {
+        window.alert("These initials already exist.  Please enter a new set of initials.");
+        inputUser();
+    }
+    else {
+        localStorage.setItem(initials, score);
+        // remove submit functionality to prevent multiple submissions
+        document.getElementsByClassName('btn')[0].removeEventListener('click', storeScore);
+    }
 
     // clear the form after submitting
     document.getElementById("user-initials").value = "";
-    // remove submit functionality to prevent multiple submissions
-    document.getElementsByClassName('btn')[0].removeEventListener('click', storeScore);
 }
 
 // Input user initials page
-function inputUser() {
+function inputUser () {
     viewScores = "";
     var parent = document.getElementById('main-content');
     // quiz is over
@@ -211,8 +218,8 @@ function inputUser() {
 }
 
 // High score back button
-var goBack = function() {
-    if(ifOngoing) {
+var goBack = function () {
+    if (ifOngoing) {
         // resume quiz
         // reload last question
         document.getElementsByTagName('body')[0].innerHTML = state;
@@ -244,14 +251,14 @@ function saveState () {
 // Displays scores
 function displayScores (scores, cnt) {
     // return if there's no scores left
-    if(scores.length == 0) {
+    if (scores.length == 0) {
         return;
     }
 
     // find the index of the highest score (lowest value)
     var highScore = 0;
-    for(var i = 1; i < scores.length; i++) {
-        if(scores[highScore].score > scores[i].score) {
+    for (var i = 1; i < scores.length; i++) {
+        if (scores[highScore].score > scores[i].score) {
             highScore = i;
         }
     }
@@ -259,7 +266,7 @@ function displayScores (scores, cnt) {
     // display score
     cnt++;
     var currScore = document.createElement('div');
-    if(cnt % 2 == 0) {
+    if (cnt % 2 == 0) {
         currScore.className = "score even";
     }
     else {
@@ -285,19 +292,19 @@ var clearScores = function () {
 };
 
 // View high scores
-var viewHighScores = function() {
+var viewHighScores = function () {
     // save the html if the quiz is ongoing
-    if(ifOngoing) {
+    if (ifOngoing) {
         saveState();
     }
 
     // remove replaced_stats in local storaage if it exists
-    if(localStorage.replaced_stats) {
+    if (localStorage.replaced_stats) {
         localStorage.clear();
     }
 
     // if the high scores list hasn't been created yet
-    if(!viewScores) {
+    if (!viewScores) {
         var parent = document.getElementById('main-content');
     
         // remove previous content
@@ -328,7 +335,7 @@ var viewHighScores = function() {
         
         // array to store all the scores
         var allScores = [];
-        for(var i = 0; i < localStorage.length; i++) {
+        for (var i = 0; i < localStorage.length; i++) {
             allScores.push({
                 name: localStorage.key(i),
                 score: localStorage.getItem(localStorage.key(i))
@@ -353,7 +360,7 @@ var viewHighScores = function() {
 
 // Runs the questions
 function runQuestions() {
-    if(index >= questions.length) {
+    if (index >= questions.length) {
         // out of questions, stop the quiz, get the user input
         clearInterval(timer);
         ifOngoing = false;

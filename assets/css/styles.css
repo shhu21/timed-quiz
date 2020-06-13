@@ -46,10 +46,10 @@ input {
 .q-btn {
     padding: 10px;
     font-size: 20px;
-    min-width: 13rem;
+    min-width: 14rem;
     background-color: var(--btnColor);
     color: var(--txtColor);
-    text-align: center;
+    text-align: left;
     border-radius: 8px;
     margin: 10px;
 }
