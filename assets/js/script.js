@@ -213,14 +213,12 @@ function inputUser() {
 
 // High score back button
 var goBack = function() {
-    // document.getElementById('score-div').remove();
     if(ifOngoing) {
         // resume quiz
         // reload last question
         document.getElementsByTagName('body')[0].innerHTML = state;
         // add click events back
         btnClick();
-        document.getElementById('high-score').addEventListener('click', viewHighScores);
         // restart the timer
         timer = updateTimer();
     }
@@ -229,10 +227,10 @@ var goBack = function() {
         document.getElementsByTagName('body')[0].innerHTML = initialState;
         // add click events back
         document.getElementById('start').addEventListener("click", startQuiz);
-        document.getElementById('high-score').addEventListener('click', viewHighScores);
         // start the questions over
         index = 0;
     }
+    document.getElementById('high-score').addEventListener('click', viewHighScores);
 };
 
 function saveState () {
@@ -248,7 +246,7 @@ function displayScores (scores, cnt) {
     if(scores.length == 0) {
         return;
     }
-    
+
     var highScore = 0;
     for(var i = 1; i < scores.length; i++) {
         if(scores[highScore].score > scores[i].score) {
