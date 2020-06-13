@@ -292,13 +292,6 @@ var viewHighScores = function() {
 
     if(!viewScores) {
         var parent = document.getElementById('main-content');
-        var ifList = document.getElementById('score-div');
-
-        // remove the score list if it exists
-        if(document.getElementById('score-div')) {
-            document.getElementById('score-div').remove();
-            scoreDiv = document.createElement('div');
-        }
     
         // remove previous content
         document.getElementsByTagName('header')[0].remove();
@@ -336,7 +329,7 @@ var viewHighScores = function() {
         }
         
         // display high scores (prevents it from dublicating the list on multiple clicks)
-        if(!ifOngoing && !ifList) {
+        if(!ifOngoing) {
             displayScores(allScores, 0);
         }
     
