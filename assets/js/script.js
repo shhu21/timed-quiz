@@ -6,17 +6,15 @@ var questions = [
     "String values must be enclosed within ______ when being assigned to variables.",
     "A very useful tool used during development and debugging for printing content ot the debugger is:"
 ]
-// [correct answer strings]
-// TODO: add in the rest of the actual answer choices
-var correctAns = ["strings", "booleans", "alerts", "numbers", "numbers"];
+// correct answer strings
+var correctAns = ["alerts", "parenthesis", "all of the above", "quotes", "console.log"];
 // answer choices
-// TODO: add in the rest of the actual answer choices
 var choices = [
-    ["numbers and strings", "booleans", "alerts", "numbers"],
     ["strings", "booleans", "alerts", "numbers"],
-    ["strings", "booleans", "alerts", "numbers"],
-    ["strings", "booleans", "alerts", "numbers"],
-    ["strings", "booleans", "alerts", "numbers"]
+    ["quotes", "curly brackets", "parenthesis", "square brackets"],
+    ["numbers and strings", "other arrays", "booleans", "all of the above"],
+    ["commas", "curly brackets", "quotes", "parenthesis"],
+    ["Javscript", "terminal/bash", "for loops", "console.log"]
 ]
 // handles 10 second penalty
 var offset = 0;
@@ -35,6 +33,7 @@ var initialState = document.getElementsByTagName('body')[0].innerHTML;
 // div for the list of scores
 var scoreDiv = document.createElement('div');
 scoreDiv.id = "score-div";
+// saves high score list
 var viewScores = "";
 
 
@@ -130,7 +129,7 @@ function setQuestion () {
     // create answer choice buttons
     for (var i = 0; i < choices[index].length; i++) {
         var createBtn = document.createElement('button');
-        createBtn.innerHTML = choices[index][i];
+        createBtn.innerHTML = `${i + 1}. ${choices[index][i]}`;
         createBtn.className = "q-btn";
 
         // mark the correct answer
@@ -233,6 +232,7 @@ var goBack = function() {
     document.getElementById('high-score').addEventListener('click', viewHighScores);
 };
 
+// Saves the current html
 function saveState () {
     // pause timer if in the middle of the quiz and then restart
     clearInterval(timer);
@@ -241,12 +241,14 @@ function saveState () {
 };
 
 
-// TODO: maybe save display in a state and reload unless user inputs a new score
+// Displays scores
 function displayScores (scores, cnt) {
+    // return if there's no scores left
     if(scores.length == 0) {
         return;
     }
 
+    // find the index of the highest score (lowest value)
     var highScore = 0;
     for(var i = 1; i < scores.length; i++) {
         if(scores[highScore].score > scores[i].score) {
@@ -266,6 +268,7 @@ function displayScores (scores, cnt) {
     currScore.innerHTML = `${cnt}. ${scores[highScore].name} - ${scores[highScore].score}`;
     scoreDiv.appendChild(currScore);
 
+    // remove the high score from the array
     var temp = scores[scores.length - 1];
     scores[highScore] = temp;
     scores.pop();
@@ -273,22 +276,27 @@ function displayScores (scores, cnt) {
     displayScores(scores, cnt);
 }
 
+// Clears all the scores
 var clearScores = function () {
     localStorage.clear();
-    // still displays scores after back and view high scoress
+    // remove the list of scores div
     document.getElementById('score-div').remove();
     viewScores = document.getElementsByTagName('body')[0].innerHTML;
 };
 
+// View high scores
 var viewHighScores = function() {
+    // save the html if the quiz is ongoing
     if(ifOngoing) {
         saveState();
     }
 
+    // remove replaced_stats in local storaage if it exists
     if(localStorage.replaced_stats) {
         localStorage.clear();
     }
 
+    // if the high scores list hasn't been created yet
     if(!viewScores) {
         var parent = document.getElementById('main-content');
     
