@@ -183,7 +183,7 @@ __Calls:__ `viewHighScores` </br>
 
 
 ## Website Preview
-![](./mock-up.png)
+![](./assets/images/mock-up.gif)
 
 <br><br>
 __*Live URL:*__ https://shhu21.github.io/timed-quiz/#
