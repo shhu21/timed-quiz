@@ -245,6 +245,10 @@ function saveState () {
 
 // TODO: maybe save display in a state and reload unless user inputs a new score
 function displayScores (scores, cnt) {
+    if(scores.length == 0) {
+        return;
+    }
+    
     var highScore = 0;
     for(var i = 1; i < scores.length; i++) {
         if(scores[highScore].score > scores[i].score) {
@@ -252,9 +256,6 @@ function displayScores (scores, cnt) {
         }
     }
     
-    if(scores.length == 0) {
-        return;
-    }
     // display score
     cnt++;
     var currScore = document.createElement('div');
