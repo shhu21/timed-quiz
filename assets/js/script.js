@@ -328,10 +328,7 @@ var viewHighScores = function() {
             });
         }
         
-        // display high scores (prevents it from dublicating the list on multiple clicks)
-        if(!ifOngoing) {
-            displayScores(allScores, 0);
-        }
+        displayScores(allScores, 0);
     
         // add the new content to the page
         hscoreDiv.appendChild(scoreDiv);
