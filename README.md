@@ -6,11 +6,26 @@ Create a timed multiple choice quiz and save the user's initials and correspondi
 > __Assumptions:__ </br>
 > 1. Scoring
 >> The user's score is determined by the time in seconds it takes the user to complete the quiz.  The time includes any penalties of an additional 10 seconds that is applied to every wrong answer.  Correct answers add no additional time to the user's score.  As such, the "High Scores" are ranked from the lowest score (shortest time) to the highest score (longest time).  
-> 2. View High Scores
->> The user may view their high scores at any time before, during, or after the quiz.  If the user chooses to view their high scores during the quiz, the timer is paused and the timer and the quiz will resume on the question they left off on after clicking the back button on the high scores page.  If the user has no storaged scores, then no score list will be shown.
-> 3. View High Scores Back button
->> As mentioned in Assumption #2, the clicking the back button while in the middle of the quiz will resume the quiz.  Otherwise, the user will be redirected to the start of the quiz (initial page).  From there the user may choose whether retake the quiz or not.
-> 4. Local Storage Unknown Factors
+
+> 2. View High Scores (before the quiz)
+>> The user may view the high scores any time before the start button is clicked.  Clicking the `back` button from the "View High Scores" page will take the user back to the start page and the actions may be repeated as many time as desired.
+
+> 3. View High Scoes (during the quiz)
+>> The user may view their high scores at any time except for when the answer feedback is being displayed.  In other words, after clicking on an answer choice until the next question is rendered the clickability is removed.  The user may click on "View High Scores" any time before they click on an answer choice.  If the user chooses to view their high scores during the quiz, the timer is paused and the timer and the quiz will resume on the question they left off on after clicking the back button on the high scores page.
+
+> 4. View High Scores (after the quiz)
+>> The user may view their high scores regardless if they submitted their initials to store their score.  
+
+> 5. Saving the user's initials and score
+>> The user may input their initials (or some string) to save their score and add it to the high scores list.  However, this action is optional.  If the user wishes to not input their data, then they may click on "View High Scores" and their current score will not be saved.  If the user does wish to save their score, then they must in put a unique string (a string that has not previously been saved in the high scores list).  Inputting a previously used string will cause an alert stating such and the user may try a new input string until they submit a new string.  If the user wishes use a previously used initials, then they must clear the high scores list first by clicking the `clear` button on the "View High Scores" page.
+
+> 6. View High Scores List
+>> If the user has no storaged scores, then no score list will be shown.
+
+> 7. View High Scores Back button
+>> As mentioned in Assumption #3, the clicking the back button while in the middle of the quiz will resume the quiz.  Otherwise, the user will be redirected to the start of the quiz (initial page).  From there the user may choose whether retake the quiz or not.
+
+> 8. Local Storage Unknown Factors
 >> When testing the program on the live URL provided by GitHub, local storage was automatically storing `replaced_stats`.  A check is done in viewHighScores() in script.js to check if `localStorage.replaced_stats` exists and clears local storage if it does.  However, depending on the user's local storage other factors may occur.
 
 ## Global Variables
@@ -82,7 +97,7 @@ __Data Type:__ Function. </br>
 __Parameters:__ None. </br>
 __Return Type:__ None. </br>
 __Purpose:__ Stores the user's initials and corresponding score. </br>
-__Functionality:__  Adds the user's initials (key) and score (value) to local storage. Removes the event listener from the `submit` button to avoid repeated submissions. </br>
+__Functionality:__  Checks if the entered initials has already been stored in the current stored set of scores.  If it has, then an alert appears and the page is reset by calling `inputUser()` to allow the user to re-enter a new set of initials (this continues until they either submit a unique string or they opt to not save their data by going to the "View High Scores" page).   Otherwise, it adds the user's initials (key) and score (value) to local storage. Removes the event listener from the `submit` button to avoid repeated submissions. </br>
 
 ### `viewHighScores`
 __Data Type:__ Function. </br>
